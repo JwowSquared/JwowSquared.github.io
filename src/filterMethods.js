@@ -233,7 +233,7 @@ function filterToggle(option) {
 	else if (option[0] === "MEGA")
 		func = x => species[x].family.form && species[x].family.form.includes("Mega");
 	else if (option[0] === "EVIOLITE")
-		func = x => species[x].family.evolutions;
+		func = x => species[x].family.evolutions && species[x].family.evolutions.filter(x => !(x[0] === "MEGA")).length > 0;
 
 	if (toggles[option[0]] === true) {
 		toggles[option[0]] = false;
