@@ -1,14 +1,14 @@
 function setupFilters() {
 
 	let toggles = {
-		"TOGGLE_CHANGED": {name: "Changed"},
-		"TOGGLE_LEVELUP": {name: "Levelup"},
-		"TOGGLE_EVOLVED": {name: "Evolved"},
-		"TOGGLE_EVIOLITE": {name: "Eviolite"},
-		"TOGGLE_HARDCORE": {name: "Hardcore"},
-		"TOGGLE_ONLYNEW": {name: "Only New"},
-		"TOGGLE_REGIONAL": {name: "Regional"},
-		"TOGGLE_MEGA": {name: "Mega"}
+		"CHANGED": {name: "Changed"},
+		"LEVELUP": {name: "Levelup"},
+		"EVOLVED": {name: "Evolved"},
+		"EVIOLITE": {name: "Eviolite"},
+		"HARDCORE": {name: "Hardcore"},
+		"ONLYNEW": {name: "Only New"},
+		"REGIONAL": {name: "Regional"},
+		"MEGA": {name: "Mega"}
 	};
 
 	let filterConfigs = [
@@ -19,7 +19,7 @@ function setupFilters() {
 		["Move Type", filterMoveType, 1, types],
 		["Ability", filterAbilities, 1, abilities],
 		["Egg Group", filterEggGroup, 1, eggGroups],
-		["Held Item", filterHeldItem, 1, items],
+		["Held Item", filterHeldItem, 1, heldItems],
 		["Level Cap", filterLevelCap, 1, caps],
 		["Toggle", filterToggle, 7, toggles]
 	];
@@ -124,7 +124,7 @@ function filterMove(option) {
 		let learnset = species[x].learnset;
 		let found = false;
 		for (const key in learnset) {
-			if (key === "levelup")
+			if (key === "levelup" || key === "prevo")
 				found = learnset.levelup.find(y => y[0] === option[0]);
 			else
 				found = learnset[key].find(y => y === option[0]);
@@ -135,8 +135,8 @@ function filterMove(option) {
 	}
 	
 	let toggles = filters["Toggle"].toggles;
-	if (toggles.TOGGLE_LEVELUP)
-		func = x => species[x].learnset.levelup.find(y => y[0] === option[0]);
+	if (toggles.LEVELUP)
+		func = x => species[x].learnset.levelup.find(y => y[0] === option[0]) || species[x].learnset.prevo.find(y => y[0] === option[0]);
 
 	addFilter(filter, option, func);
 }
@@ -155,7 +155,7 @@ function filterMoveType(option) {
 		let learnset = species[x].learnset;
 		let found = false;
 		for (const key in learnset) {
-			if (key === "levelup")
+			if (key === "levelup" || key === "prevo")
 				found = learnset.levelup.find(y => moves[y[0]].type === option[0] && moves[y[0]].power > 0);
 			else
 				found = learnset[key].find(y => moves[y].type === option[0] && moves[y].power > 0);
@@ -166,8 +166,8 @@ function filterMoveType(option) {
 	}
 	
 	let toggles = filters["Toggle"].toggles;
-	if (toggles.TOGGLE_LEVELUP)
-		func = x => species[x].learnset.levelup.find(y => moves[y[0]].type === option[0]);
+	if (toggles.LEVELUP)
+		func = x => species[x].learnset.levelup.find(y => moves[y[0]].type === option[0]) || species[x].learnset.prevo.find(y => moves[y[0]].type === option[0]);
 	
 	addFilter(filter, option, func);
 }
@@ -200,17 +200,21 @@ function filterLevelCap(option) {
 	let toggles = filters["Toggle"].toggles;
 	
 	let difficulty = "normal";
-	if (toggles.TOGGLE_HARDCORE)
+	if (toggles.HARDCORE)
 		difficulty = "hardcore";
 
-	let category = "all";
-	if (toggles.TOGGLE_ONLYNEW)
-		category = "new";
-	
-	let func = x => caps[option[0]][difficulty].pokemon[category].indexOf(x) !== -1;
-	
-	if (toggles.TOGGLE_EVOLVED)
-		func = x => caps[option[0]][difficulty].pokemon[category].indexOf(x) !== -1 && caps[option[0]][difficulty].pokemon.evolved.indexOf(x) !== -1;
+	func = function(x) {
+		let output;
+		if (toggles.ONLYNEW)
+			output = species[x].cap[difficulty] == option[0];
+		else
+			output = species[x].cap[difficulty] <= option[0];
+
+		if (!output || !toggles.EVOLVED)
+			return output;
+
+		return species[x].family.evolutions && species[x].family.evolutions.filter(y => species[y[2]].cap[difficulty] <= option[0]).length === 0;
+	}
 
 	addFilter(filter, option, func);
 }
@@ -220,15 +224,15 @@ function filterToggle(option) {
 	let toggles = filter.toggles;
 
 	let func = x => true;
-	if (option[0] === "TOGGLE_CHANGED")
+	if (option[0] === "CHANGED")
 		func = x => species[x].changelog != null;
-	else if (option[0] === "TOGGLE_EVOLVED" && filters["Level Cap"].active.length === 0)
+	else if (option[0] === "EVOLVED" && filters["Level Cap"].active.length === 0)
 		func = x => !species[x].family.evolutions;
-	else if (option[0] === "TOGGLE_REGIONAL")
+	else if (option[0] === "REGIONAL")
 		func = x => species[x].family.forms && species[species[x].family.forms[0]].family.region !== species[x].family.region;
-	else if (option[0] === "TOGGLE_MEGA")
+	else if (option[0] === "MEGA")
 		func = x => species[x].family.form && species[x].family.form.includes("Mega");
-	else if (option[0] === "TOGGLE_EVIOLITE")
+	else if (option[0] === "EVIOLITE")
 		func = x => species[x].family.evolutions;
 
 	if (toggles[option[0]] === true) {
@@ -240,7 +244,7 @@ function filterToggle(option) {
 		addFilter(filter, option, func);
 		filters.active[option[0]].tag.onclick = function() {
 			toggles[option[0]] = false;
-			if (option[0] === "TOGGLE_EVOLVED" || option[0] === "TOGGLE_HARDCORE" || option[0] === "TOGGLE_ONLYNEW")
+			if (option[0] === "EVOLVED" || option[0] === "HARDCORE" || option[0] === "ONLYNEW")
 				filterLevelCap("RECALC");
 			if (option[0] === "TOGGLE_LEVELUP") {
 				filterMove("RECALC");
@@ -250,9 +254,9 @@ function filterToggle(option) {
 		};
 	}
 
-	if (option[0] === "TOGGLE_EVOLVED" || option[0] === "TOGGLE_HARDCORE" || option[0] === "TOGGLE_ONLYNEW")
+	if (option[0] === "EVOLVED" || option[0] === "HARDCORE" || option[0] === "ONLYNEW")
 		filterLevelCap("RECALC");
-	if (option[0] === "TOGGLE_LEVELUP") {
+	if (option[0] === "LEVELUP") {
 		filterMove("RECALC");
 		filterMoveType("RECALC");
 	}

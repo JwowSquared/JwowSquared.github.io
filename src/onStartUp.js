@@ -1,61 +1,38 @@
 async function fetchData() {
-	let loadingScreen = document.getElementById("loadingScreen");
-	let files = [
-		"species",
-		"sprites",
-		"abilities",
-		"moves",
-		"locations",
-		"types",
-		"caps",
-		"eggGroups",
-		"items",
-		"regions"
-	];
 	try {
-		let requests = [];
-		for (let i = 0; i < files.length; i++)
-			requests.push(new Request(`https://raw.githubusercontent.com/${repo}/master/data/${files[i]}.js`));
+		let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.json`);
 		
 		const cache = await caches.open(version);
 		
-		let responses = [];
-		for (let i = 0; i < requests.length; i++) {
-			showMessage(loadingScreen, `Loading ${files[i]}...`);
-			let response = await cache.match(requests[i]);
-			if (!response) {
-				response = await fetch(requests[i]);
-				await cache.put(requests[i], response);
-			}
-			responses.push(await cache.match(requests[i]));
+		let response = await cache.match(request);
+		if (!response) {
+			response = await fetch(request);
+			await cache.put(request, response);
 		}
-	
-		showMessage(loadingScreen, "Parsing JSON...");
-		species = await responses[0].json();
-		sprites = await responses[1].json();
-		abilities = await responses[2].json();
-		moves = await responses[3].json();
-		locations = await responses[4].json();
-		types = await responses[5].json();
-		caps = await responses[6].json();
-		eggGroups = await responses[7].json();
-		items = await responses[8].json();
-		regions = await responses[9].json();
+			response = await cache.match(request);
+		
+		let data = await response.json();
+		species = data.species;
+		moves = data.moves;
+		abilities = data.abilities;
+		locations = data.locations;
+		eggGroups = data.eggGroups;
+		types = data.types;
+		splits = data.splits;
+		evolutionItems = data.evolutionItems;
+		heldItems = data.heldItems;
+		caps = data.caps;
+		sprites = data.sprites;
+		evolutions = data.evolutions;
+		regions = data.regions;
+		stats = data.stats;
 	}
 	catch (e) {
-		showMessage(loadingScreen, "Error encountered. Please wait a few minutes and refresh the page.");
-		showMessage(loadingScreen, "If that doesn't work, ping @JwowSquared in the Radical Red discord.");
 		console.log(e);
 		return;
 	}
 	loadingScreen.className = "hide";
 	document.querySelector("main").className = "";
-}
-
-function showMessage(parent, message) {
-	let p = document.createElement("p");
-	p.innerText = message;
-	parent.append(p);
 }
 
 async function onStartup() {
@@ -71,7 +48,8 @@ function loadChunk(tracker, toClear) {
 	let rowsAdded = 0;
 	
 	if (toClear) {
-		tracker.sortControls[0].parentNode.parentNode.scrollIntoView({behavior: "smooth", block: "nearest"});
+		if (scrollIntoView)
+			tracker.sortControls[0].parentNode.parentNode.scrollIntoView({behavior: "smooth", block: "nearest"});
 		tracker.body.innerText = "";
 		tracker.index = 0;
 	}

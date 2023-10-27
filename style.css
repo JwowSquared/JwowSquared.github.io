@@ -27,8 +27,7 @@ body {
 #speciesModal .close {
 	color: white;
     text-shadow: none;
-	position: sticky;
-    top: 7px;
+	float: right;
 }
 
 #speciesPanelInfoDisplay {
@@ -179,7 +178,7 @@ body {
 	color: #f83f3f;
 }
 
-.infoTreeEvoLabel, .infoTreeFormsLabel, .coverageLabelWrapper, .infoChangelogLabel, .infoItemsLabel, .infoEggGroupsLabel {
+.infoTreeEvoLabel, .infoTreeFormsLabel, .coverageLabelWrapper, .infoChangelogLabel, .infoItemsLabel, .infoEggGroupsLabel, .infoCapLabel {
 	font-weight: 550;
     font-size: 1.2rem;
 }
@@ -196,6 +195,27 @@ body {
     margin: 3px;
     border-radius: 3px;
     background-color: #333333;
+	text-shadow: 1px 1px black;
+}
+
+.typeMatchupMultiplier.x0 {
+	background-color: #121314;
+}
+
+.typeMatchupMultiplier.x25 {
+	background-color: #7c0000;
+}
+
+.typeMatchupMultiplier.x50 {
+	background-color: #a40000;
+}
+
+.typeMatchupMultiplier.x200 {
+	background-color: #4e9a06;
+}
+
+.typeMatchupMultiplier.x400 {
+	background-color: #73d216;
 }
 
 .tableName {
@@ -360,7 +380,7 @@ body {
 	font-style: italic;
 }
 
-.speciesAbilitiesHidden, .infoAbilitiesHidden, .infoChangelogAbility.hidden {
+.speciesAbilitiesHidden, .infoAbilitiesHidden, .infoChangelogAbility.hidden, .infoChangelogUnique {
 	color: rgb(255 107 188);
     font-weight: 550;
     text-shadow: 1px 1px black;
