@@ -59,9 +59,9 @@ function setupFilters() {
 
 	speciesInput.addEventListener("keyup", buildDropdown);
 	speciesInput.addEventListener("focus", buildDropdown);
-	//speciesInput.addEventListener("blur", function(event) {
-	//	filterDropdown.innerHTML = "";
-	//});
+	speciesInput.addEventListener("blur", function(event) {
+		filterDropdown.innerHTML = "";
+	});
 
 	speciesInput.addEventListener("change", function(event) {
 		event.preventDefault();
