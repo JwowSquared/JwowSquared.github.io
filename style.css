@@ -16,6 +16,30 @@ body {
 	margin-top: 20px;
 }
 
+#speciesFilterInputWrapper {
+	position: relative;
+}
+
+#speciesFilterDropdown {
+	position: absolute;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    list-style-type: none;
+    z-index: 10;
+    padding: 0;
+}
+
+#speciesFilterDropdown li {
+	width: 100%;
+	background: black;
+	color: white;
+}
+#speciesFilterDropdown li:hover {
+	background: blue;
+}
+
 #speciesModal .modal-content {
 	background-color: #222222;
     user-select: none;

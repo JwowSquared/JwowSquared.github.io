@@ -1,3 +1,8 @@
+let speciesInput = document.getElementById("speciesFilterInput");
+let filterDropdown = document.getElementById("speciesFilterDropdown");
+let selectFilterCategory = document.getElementById("speciesFilterCategory");
+let selectedFilter = null;
+
 function setupFilters() {
 
 	let toggles = {
@@ -36,22 +41,7 @@ function setupFilters() {
 	for (const option of filters["Name"].options)
 		option[1] = fullSpeciesName(option[0]);
 	filters["Toggle"].toggles = {};
-
-	let listContainer = document.getElementById("speciesLists");
-	for (const filter of Object.values(filters)) {
-		let datalist = document.createElement("datalist");
-		datalist.id = filter.ID;
-		let options = filter.options;
-		for (let i = 0; i < options.length; i++) {
-			let option = document.createElement("option");
-			option.value = options[i][1];
-			option.dataset.idx = i;
-			datalist.append(option);
-		}
-		listContainer.append(datalist);
-	}
 	
-	let selectFilterCategory = document.getElementById("speciesFilterCategory");
 	for (const filter of Object.values(filters)) {
 		let option = document.createElement("option");
 		option.value = filter.name;
@@ -60,28 +50,44 @@ function setupFilters() {
 	}
 	
 	filters.active = {};
-	
-	let selectedFilter = filters["Name"];
-	let speciesInput = document.getElementById("speciesFilterInput");
-	speciesInput.setAttribute("list", selectedFilter.ID);
-	
+	selectedFilter = filters["Name"];
 	selectFilterCategory.addEventListener("change", function(event) {
 		event.preventDefault();
 		selectedFilter = filters[selectFilterCategory.value];
-		speciesInput.setAttribute("list", selectedFilter.ID);
 		speciesInput.value = "";
 	});
 
+	speciesInput.addEventListener("keyup", buildDropdown);
+	speciesInput.addEventListener("focus", buildDropdown);
+	//speciesInput.addEventListener("blur", function(event) {
+	//	filterDropdown.innerHTML = "";
+	//});
+
 	speciesInput.addEventListener("change", function(event) {
 		event.preventDefault();
-		let input = speciesInput.value.trim();
+		let input = speciesInput.value.trim().toLowerCase();
 		
-		let option = selectedFilter.options.find(x => x[1] === input);
+		let option = selectedFilter.options.find(x => x[1].toLowerCase() === input);
 		if (option) {
 			selectedFilter.filter(option);
 			speciesInput.value = "";
 		}
 	});
+}
+
+function buildDropdown(event) {
+	event.preventDefault();
+	let input = speciesInput.value.trim().toLowerCase();
+	let options = selectedFilter.options.filter(x => x[1].toLowerCase().includes(input));
+	filterDropdown.innerHTML = "";
+	for (let i = 0; i < options.length; i++) {
+		let option = document.createElement("li");
+		option.innerText = options[i][1];
+		option.addEventListener("mousedown", function() {
+			selectedFilter.filter(options[i]);
+		});
+		filterDropdown.append(option);
+	}
 }
 
 function buildFilter(name, filter, max, library) {
