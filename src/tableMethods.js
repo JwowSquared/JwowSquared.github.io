@@ -58,8 +58,8 @@ function setupTables() {
 		["HP", ["stats", "HP"]],
 		["Atk", ["stats", "attack"]],
 		["Def", ["stats", "defense"]],
-		["SpA", ["stats", "specialAttack"]],
-		["SpD", ["stats", "specialDefense"]],
+		["SpA", ["stats", "spAttack"]],
+		["SpD", ["stats", "spDefense"]],
 		["Spe", ["stats", "speed"]],
 		["BST", ["stats", "total"]]
 	]);
