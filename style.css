@@ -287,6 +287,8 @@ li:hover {
 	border-radius: 3px 0 0 3px;
 	cursor: pointer;
 	width: 92px;
+	position: relative;
+    right: -1px;
 }
 
 #speciesFilterCategory > option {
@@ -308,6 +310,8 @@ li:hover {
 	border-left: none;
 	border-radius: 0 3px 3px 0;
 	width: 145px;
+	position: relative;
+    left: -1px;
 }
 
 #speciesFilterInput::-webkit-calendar-picker-indicator {
@@ -350,6 +354,10 @@ li:hover {
 	position: relative;
 	z-index: 0;
 	background: unset;
+}
+
+tbody {
+	scroll-margin-top: 37px;
 }
 
 .sortControls {
@@ -469,6 +477,10 @@ li:hover {
 	
 	td.moveNameWrapper, td.moveTypeWrapper {
 		width: 40%;
+	}
+	
+	tbody {
+		scroll-margin-top: 67px;
 	}
 	
 	.sortLocked {
