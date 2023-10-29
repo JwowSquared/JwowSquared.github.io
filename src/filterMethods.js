@@ -1,6 +1,9 @@
 let speciesInput = document.getElementById("speciesFilterInput");
-let filterDropdown = document.getElementById("speciesFilterDropdown");
+let inputDropdown = document.getElementById("speciesFilterInputDropdown");
+let inputWrapper = document.getElementById("speciesFilterInputWrapper");
 let selectFilterCategory = document.getElementById("speciesFilterCategory");
+let categoryDropdown = document.getElementById("speciesFilterCategoryDropdown");
+let categoryWrapper = document.getElementById("speciesFilterCategoryWrapper");
 let selectedFilter = null;
 
 function setupFilters() {
@@ -42,12 +45,30 @@ function setupFilters() {
 		option[1] = fullSpeciesName(option[0]);
 	filters["Toggle"].toggles = {};
 	
-	for (const filter of Object.values(filters)) {
-		let option = document.createElement("option");
-		option.value = filter.name;
-		option.innerText = filter.name;
-		selectFilterCategory.append(option);
+	selectFilterCategory.value = filterConfigs[0][0];
+	let options = filterConfigs.map(x => x[0]);
+	categoryDropdown.className = "hide";
+	for (let i = 0; i < options.length; i++) {
+		let option = document.createElement("li");
+		option.innerText = options[i];
+		option.addEventListener("mousedown", function() {
+			selectFilterCategory.value = option.innerText;
+			selectedFilter = filters[option.innerText];
+			selectFilterCategory.className = "";
+			categoryDropdown.className = "hide";
+		});
+		categoryDropdown.append(option);
 	}
+	selectFilterCategory.addEventListener("mousedown", function(event) {
+		event.preventDefault();
+		selectFilterCategory.className = "highlight";
+		categoryDropdown.className = "";
+	});
+	categoryWrapper.addEventListener("mouseleave", function(event) {
+		event.preventDefault();
+		selectFilterCategory.className = "";
+		categoryDropdown.className = "hide";
+	});
 	
 	filters.active = {};
 	selectedFilter = filters["Name"];
@@ -58,9 +79,11 @@ function setupFilters() {
 	});
 
 	speciesInput.addEventListener("keyup", buildDropdown);
-	speciesInput.addEventListener("focus", buildDropdown);
-	speciesInput.addEventListener("blur", function(event) {
-		filterDropdown.innerHTML = "";
+	speciesInput.addEventListener("mousedown", buildDropdown);
+	inputWrapper.addEventListener("mouseleave", function(event) {
+		event.preventDefault();
+		speciesInput.blur();
+		inputDropdown.innerHTML = "";
 	});
 
 	speciesInput.addEventListener("change", function(event) {
@@ -76,17 +99,16 @@ function setupFilters() {
 }
 
 function buildDropdown(event) {
-	event.preventDefault();
 	let input = speciesInput.value.trim().toLowerCase();
 	let options = selectedFilter.options.filter(x => x[1].toLowerCase().includes(input));
-	filterDropdown.innerHTML = "";
+	inputDropdown.innerHTML = "";
 	for (let i = 0; i < options.length; i++) {
 		let option = document.createElement("li");
 		option.innerText = options[i][1];
 		option.addEventListener("mousedown", function() {
 			selectedFilter.filter(options[i]);
 		});
-		filterDropdown.append(option);
+		inputDropdown.append(option);
 	}
 }
 

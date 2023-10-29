@@ -16,28 +16,42 @@ body {
 	margin-top: 20px;
 }
 
-#speciesFilterInputWrapper {
+#speciesFilterInputWrapper, #speciesFilterCategoryWrapper {
 	position: relative;
 }
 
-#speciesFilterDropdown {
+#speciesFilterInputDropdown {
+	overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.highlight {
+	outline: -webkit-focus-ring-color auto 1px;
+}
+
+ul {
 	position: absolute;
     width: 100%;
     max-height: 400px;
-    overflow-y: scroll;
-    overflow-x: hidden;
     list-style-type: none;
-    z-index: 10;
+    z-index: 2;
     padding: 0;
+    outline: -webkit-focus-ring-color auto 1px;
 }
 
-#speciesFilterDropdown li {
+li {
 	width: 100%;
-	background: black;
+	background: #282727;
 	color: white;
+	padding: 2px;
+	border: solid thin #555;
+	border-top: unset;
+	cursor: pointer;
+    user-select: none;
 }
-#speciesFilterDropdown li:hover {
-	background: blue;
+
+li:hover {
+	background: #3c3a3a;
 }
 
 #speciesModal .modal-content {
@@ -272,10 +286,16 @@ body {
 	border-right: none;
 	border-radius: 3px 0 0 3px;
 	cursor: pointer;
+	width: 92px;
 }
 
-#speciesFilterCategory option {
-	background: black;
+#speciesFilterCategory > option {
+	padding: 2px;
+	background-color: black;
+}
+
+#speciesFilterCategory > option:hover {
+	background-color: red;
 }
 
 #speciesFilterSeparator {
@@ -333,10 +353,13 @@ body {
 
 .sortControls {
 	background-color: rgb(42, 48, 54);
+	font-weight: 700;
+}
+
+.table thead {
 	position: sticky;
 	top: -1px;
 	z-index: 1;
-	font-weight: 700;
 }
 
 .table thead th {
