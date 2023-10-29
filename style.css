@@ -349,6 +349,7 @@ li:hover {
 	box-shadow: black 2px 2px 8px 0px;
 	position: relative;
 	z-index: 0;
+	background: unset;
 }
 
 .sortControls {
@@ -498,6 +499,7 @@ li:hover {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		border-top: solid thin #757575;
 	}
 	
 	.speciesDexIDWrapper {
