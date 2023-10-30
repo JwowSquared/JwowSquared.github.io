@@ -217,7 +217,7 @@ function filterHeldItem(option) {
 
 function filterLevelCap(option) {
 	let filter = filters["Level Cap"];
-	
+
 	if (option === "RECALC") {
 		let activeFilters = [...filter.active];
 		for (const activeFilter of activeFilters)
@@ -231,20 +231,20 @@ function filterLevelCap(option) {
 	if (toggles.HARDCORE)
 		difficulty = "hardcore";
 
-	func = function(x) {
-		let output;
-		if (toggles.ONLYNEW)
-			output = species[x].cap[difficulty] == option[0];
-		else
-			output = species[x].cap[difficulty] <= option[0];
+	if (toggles.ONLYNEW)
+		func = x => species[x].cap[difficulty] == option[0];
+	else
+		func = x => species[x].cap[difficulty] <= option[0];
 
-		if (!output || !toggles.EVOLVED)
-			return output;
-
-		return species[x].family.evolutions && species[x].family.evolutions.filter(y => species[y[2]].cap[difficulty] <= option[0]).length === 0;
-	}
+	if (toggles.EVOLVED)
+		filters.active.EVOLVED.func = x => !("evolutions" in species[x].family) || !(species[x].family.evolutions.find(y => species[y[2]].cap[difficulty] <= option[0]));
 
 	addFilter(filter, option, func);
+	filters.active[option[0]].tag.onclick = function() {
+		if (toggles.EVOLVED)
+			filters.active.EVOLVED.func = x => !species[x].family.evolutions;
+		removeFilter(filter, option);
+	};
 }
 
 function filterToggle(option) {
@@ -274,7 +274,7 @@ function filterToggle(option) {
 			toggles[option[0]] = false;
 			if (option[0] === "EVOLVED" || option[0] === "HARDCORE" || option[0] === "ONLYNEW")
 				filterLevelCap("RECALC");
-			if (option[0] === "TOGGLE_LEVELUP") {
+			if (option[0] === "LEVELUP") {
 				filterMove("RECALC");
 				filterMoveType("RECALC");
 			}
