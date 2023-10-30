@@ -54,6 +54,7 @@ function setupFilters() {
 		option.addEventListener("mousedown", function() {
 			selectFilterCategory.value = option.innerText;
 			selectedFilter = filters[option.innerText];
+			speciesInput.value = "";
 			selectFilterCategory.className = "";
 			categoryDropdown.className = "hide";
 		});
@@ -72,11 +73,6 @@ function setupFilters() {
 	
 	filters.active = {};
 	selectedFilter = filters["Name"];
-	selectFilterCategory.addEventListener("change", function(event) {
-		event.preventDefault();
-		selectedFilter = filters[selectFilterCategory.value];
-		speciesInput.value = "";
-	});
 
 	speciesInput.addEventListener("keyup", buildDropdown);
 	speciesInput.addEventListener("mousedown", buildDropdown);
@@ -107,6 +103,7 @@ function buildDropdown(event) {
 		option.innerText = options[i][1];
 		option.addEventListener("mousedown", function() {
 			selectedFilter.filter(options[i]);
+			speciesInput.value = "";
 		});
 		inputDropdown.append(option);
 	}
