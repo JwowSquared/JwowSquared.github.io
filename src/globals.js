@@ -1,5 +1,5 @@
 let repo = "JwowSquared/JwowSquared.github.io";
-let version = "rrdex release 1.1.1.5";
+let version = "rrdex release 1.1.1.6";
 
 let species = null;
 let sprites = null;
@@ -15,6 +15,7 @@ let regions = null;
 let splits = null;
 let evolutions = null;
 let stats = null;
+let flags = null;
 
 let trackers = {};
 let filters = {};
@@ -24,7 +25,7 @@ let scrollIntoView = true;
 function fullSpeciesName(key) {
 	let mon = species[key];
 	let output = "";
-	if (mon.family.forms && species[mon.family.forms[0]].family.region !== mon.family.region)
+	if (mon.family.variant)
 		output += regions[mon.family.region].variant + " ";
 	
 	output += species[key].name;

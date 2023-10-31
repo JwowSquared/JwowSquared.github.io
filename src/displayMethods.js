@@ -127,7 +127,7 @@ function buildWrapperSprite(tag, className, src) {
 function buildWrapperName(tag, className, mon) {
 	let wrapper = buildWrapper(tag, className + "Wrapper");
 	
-	if (mon.family.forms && species[mon.family.forms[0]].family.region !== mon.family.region)
+	if (mon.family.variant)
 		wrapper.append(buildWrapper("div", className + "Region", regions[mon.family.region].variant));
 	
 	wrapper.append(buildWrapper("div", className + "Name", mon.name));

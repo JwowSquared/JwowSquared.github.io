@@ -21,8 +21,9 @@ async function fetchData() {
 		splits = data.splits;
 		evolutionItems = data.evolutionItems;
 		heldItems = data.heldItems;
-		caps = data.caps;
 		sprites = data.sprites;
+		flags = data.flags;
+		caps = data.caps;
 		evolutions = data.evolutions;
 		regions = data.regions;
 		stats = data.stats;
