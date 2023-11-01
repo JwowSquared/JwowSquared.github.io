@@ -1,3 +1,7 @@
+function displayHelp() {
+	$('#helpModal').modal('show');
+}
+
 function displaySpeciesRow(tracker, key) {
 	let mon = tracker.library[key];
 	let currentRow = document.createElement("tr");

@@ -49,7 +49,39 @@
           </div>
         </div>
       </div>
+	  <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="Full Pokemon Info" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+              </button>
+			  <div id="helpContent">
+			    <h1>Filters</h1>
+                <p><b>Name</b>: search for a species by name.</p>
+                <p><b>Region</b>: Show all species from a certain region.</p>
+                <p><b>Type</b>: Show all species with a certain type.</p>
+                <p><b>Move</b>: Show all species who can learn a certain move.</p>
+                <p><b>Move Type</b>: Show all species who can learn a move of a certain type.</p>
+                <p><b>Ability</b>: Show all species who can have a certain ability.</p>
+                <p><b>Egg Group</b>: Show all species from a certain egg group.</p>
+                <p><b>Held Item</b>: Show all species who can be found in the wild holding a certain item.</p>
+                <p><b>Level Cap</b>: Show all species who are available before a certain major boss fight.</p>
+				<h1>Toggles</h1>
+				<p><b>Changed</b>: Show all species who have their type, ability, or stats changed in Radical Red.</p>
+				<p><b>Levelup</b>: Changes <b>Move</b> and <b>Move Type</b> filters to only look for Moves learned by level up.</p>
+				<p><b>Evolved</b>: Changes <b>Level Cap</b> filter to only show species who are at the maximum evolution possible before a certain level cap. If no <b>Level Cap</b> filter is selected, <b>Evolved</b> still works, showing all fully evolved species.</p>
+				<p><b>Hardcore</b>: Changes <b>Level Cap</b> filter to use the <b>Hardcore</b> level caps and item locations.</p>
+				<p><b>Only New</b>: Changes <b>Level Cap</b> filter to only show species who are newly available as of a certain level cap.</p>
+				<p><b>Regional</b>: Show all species that are regional variants.</p>
+				<p><b>Mega</b>: Show all species that are Mega evolutions.</p>
+			  </div>
+            </div>
+          </div>
+        </div>
+      </div>
 	  <div id="speciesControl">
+	    <button id="showHelpButton" onclick="displayHelp()">?</button>
 	    <div id="speciesFilterCategoryWrapper">
 	      <input type="button" id="speciesFilterCategory"></input>
 		  <ul id="speciesFilterCategoryDropdown">
