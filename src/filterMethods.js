@@ -161,7 +161,7 @@ function filterMove(option) {
 	
 	let toggles = filters["Toggle"].toggles;
 	if (toggles.LEVELUP)
-		func = x => species[x].learnset.levelup.find(y => y[0] === option[0]) || species[x].learnset.prevo.find(y => y[0] === option[0]);
+		func = x => species[x].learnset.levelup.find(y => y[0] === option[0]) || (species[x].learnset.prevo && species[x].learnset.prevo.find(y => y[0] === option[0]));
 
 	addFilter(filter, option, func);
 }
