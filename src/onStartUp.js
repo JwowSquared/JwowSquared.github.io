@@ -1,37 +1,36 @@
 async function fetchData() {
-	try {
-		let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.json`);
-		
+	let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.json`);
+	let response = null;
+	if (caches) {
 		const cache = await caches.open(version);
 		
-		let response = await cache.match(request);
+		response = await cache.match(request);
 		if (!response) {
 			response = await fetch(request);
 			await cache.put(request, response);
 		}
 			response = await cache.match(request);
-		
-		let data = await response.json();
-		species = data.species;
-		moves = data.moves;
-		abilities = data.abilities;
-		locations = data.locations;
-		eggGroups = data.eggGroups;
-		types = data.types;
-		splits = data.splits;
-		evolutionItems = data.evolutionItems;
-		heldItems = data.heldItems;
-		sprites = data.sprites;
-		flags = data.flags;
-		caps = data.caps;
-		evolutions = data.evolutions;
-		regions = data.regions;
-		stats = data.stats;
 	}
-	catch (e) {
-		console.log(e);
-		return;
-	}
+	else
+		response = await fetch(request);
+	
+	let data = await response.json();
+	species = data.species;
+	moves = data.moves;
+	abilities = data.abilities;
+	locations = data.locations;
+	eggGroups = data.eggGroups;
+	types = data.types;
+	splits = data.splits;
+	evolutionItems = data.evolutionItems;
+	heldItems = data.heldItems;
+	sprites = data.sprites;
+	flags = data.flags;
+	caps = data.caps;
+	evolutions = data.evolutions;
+	regions = data.regions;
+	stats = data.stats;
+	
 	loadingScreen.className = "hide";
 	document.querySelector("main").className = "";
 }
