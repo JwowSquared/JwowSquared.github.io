@@ -1,7 +1,7 @@
 async function fetchData() {
 	let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.json`);
 	let response = null;
-	if (caches) {
+	if (typeof caches !== "undefined") {
 		const cache = await caches.open(version);
 		
 		response = await cache.match(request);
