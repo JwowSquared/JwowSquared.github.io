@@ -74,23 +74,23 @@ function setupFilters() {
 	filters.active = {};
 	selectedFilter = filters["Name"];
 
+	speciesInput.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.key !== "Enter")
+			return;
+		let input = speciesInput.value.trim().toLowerCase();
+		let option = selectedFilter.options.find(x => x[1].toLowerCase() === input);
+		if (option) {
+			selectedFilter.filter(option);
+			speciesInput.value = "";
+		}
+	});
 	speciesInput.addEventListener("keyup", buildDropdown);
 	speciesInput.addEventListener("mousedown", buildDropdown);
 	inputWrapper.addEventListener("mouseleave", function(event) {
 		event.preventDefault();
 		speciesInput.blur();
 		inputDropdown.innerHTML = "";
-	});
-
-	speciesInput.addEventListener("change", function(event) {
-		event.preventDefault();
-		let input = speciesInput.value.trim().toLowerCase();
-		
-		let option = selectedFilter.options.find(x => x[1].toLowerCase() === input);
-		if (option) {
-			selectedFilter.filter(option);
-			speciesInput.value = "";
-		}
 	});
 }
 
