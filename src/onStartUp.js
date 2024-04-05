@@ -15,7 +15,6 @@ async function fetchData() {
 		response = await fetch(request);
 	
 	data = await response.text();
-	//console.log(data);
 	//data = new Function("return " + data + ";")();
 	
 	species = data.species;
