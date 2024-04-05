@@ -1,5 +1,5 @@
 async function fetchData() {
-	let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.json`);
+	let request = new Request(`https://raw.githubusercontent.com/${repo}/master/data.js`);
 	let response = null;
 	if (typeof caches !== "undefined") {
 		const cache = await caches.open(version);
@@ -14,22 +14,17 @@ async function fetchData() {
 	else
 		response = await fetch(request);
 	
-	let data = await response.json();
+	let data = await response.text();
+	data = eval('`' + data + '`');
+	console.log(data.species);
 	species = data.species;
 	moves = data.moves;
 	abilities = data.abilities;
-	locations = data.locations;
-	eggGroups = data.eggGroups;
-	types = data.types;
-	splits = data.splits;
-	evolutionItems = data.evolutionItems;
-	heldItems = data.heldItems;
+	items = data.items;
+	areas = data.areas;
+	tmMoves = data.tmMoves;
+	tutorMoves = data.tutorMoves;
 	sprites = data.sprites;
-	flags = data.flags;
-	caps = data.caps;
-	evolutions = data.evolutions;
-	regions = data.regions;
-	stats = data.stats;
 	
 	loadingScreen.className = "hide";
 	document.querySelector("main").className = "";
