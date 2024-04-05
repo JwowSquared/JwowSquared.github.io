@@ -14,9 +14,10 @@ async function fetchData() {
 	else
 		response = await fetch(request);
 	
-	let data = await response.text();
-	data = eval('`' + data + '`');
-	console.log(data.species);
+	data = await response.text();
+	//console.log(data);
+	//data = new Function("return " + data + ";")();
+	
 	species = data.species;
 	moves = data.moves;
 	abilities = data.abilities;
