@@ -16,7 +16,7 @@ function setupFilters() {
 	
 	buildFilter('Type', 2, Object.values(types),
 		o => o.name,
-		(x,o) => x.type.find(y => y == o.ID)
+		(x,o) => x.type.find(y => y == o.ID) !== undefined
 	);
 	
 	buildFilter('Move', 4, Object.values(moves),

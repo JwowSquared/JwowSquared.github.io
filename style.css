@@ -577,3 +577,12 @@ td.moveDescriptionWrapper {
 		width: 14%;
 	}
 }
+
+@media (max-width: 399.98px) {
+	.evoMethod {
+		font-size: 14px;
+	}
+	.infoTreeArrow {
+		font-size: 10px;
+	}
+}
