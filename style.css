@@ -406,33 +406,31 @@ tbody {
 	width: 64px;
 }
 
-.speciesNameRegion, .speciesNameForm, .infoNameRegion, .infoNameForm, .infoChangelogAbilityWrapper > div {
-	font-style: italic;
-}
-
-.speciesNameName {
-	font-weight: 700;
-}
-
 .infoNameName {
 	font-size: 1.2rem;
+}
+
+td.speciesNameWrapper {
+	font-weight: 700;
 }
 
 .typeWrapper {
 	width: 70.3px;
 	padding: 2px;
 	display: inline-block;
-	border-radius: 5px;
+	border-radius: 15px;
 	margin: 2px 3px;
 	font-weight: 550;
 	text-shadow: 1px 1px black;
+	border: 2px white solid;
+    box-shadow: 1px 2px #00000047;    
 }
 
-.speciesAbilitiesWrapper, .infoAbilitiesWrapper {
+.speciesAbilitiesWrapper, .infoAbilitiesWrapper, .infoChangelogAbilityWrapper {
 	font-style: italic;
 }
 
-.speciesAbilitiesHidden, .infoAbilitiesHidden, .infoChangelogAbility.hidden, .infoChangelogUnique {
+.speciesAbilitiesHidden, .infoAbilitiesHidden, .infoChangelogAbility0, .infoChangelogUnique {
 	color: rgb(255 107 188);
     font-weight: 550;
     text-shadow: 1px 1px black;
@@ -442,52 +440,94 @@ tbody {
 	font-style: italic;
 }
 
+.moveSplit {
+	height: 28px;
+}
+
+#speciesModal .sortOption {
+	width: 25%;
+}
+
+#speciesLearnsetPrevoExclusiveTable th:nth-of-type(2),
+#speciesLearnsetLevelUpTable th:nth-of-type(2)
+{
+	width: 75%;
+	text-indent: 25%;
+	text-align: left;
+}
+
+#speciesLearnsetTMHMTable th:nth-of-type(1), 
+#speciesLearnsetTutorTable th:nth-of-type(1), 
+#speciesLearnsetEggMovesTable th:nth-of-type(1)
+{
+	width: 100%;
+}
+
+.movesRow {
+	display: flex;
+	height: fit-content;
+	height: -moz-max-content;
+	position: relative;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.moveLevelWrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.movesRow td {
+	width: 25%;
+}
+
+td.moveNameWrapper {
+	text-align: center;
+	width: 100%;
+}
+
+td.moveTypeWrapper {
+	width: 25%;
+}
+
+td.moveDescriptionWrapper {
+	width: 100%;
+}
+
+.modal tbody {
+	scroll-margin-top: 67px;
+}
+
+.modal .sortLocked {
+	display: none;
+}
+
+.modal .table td {
+	border: none;
+}
+
+.modal .sortControls {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 @media (max-width: 991.98px) {
 	
-	#speciesModal .sortOption {
-		width: 33.33%;
-	}
-	
-	#speciesLearnsetTMHMTable th:nth-of-type(1), #speciesLearnsetTMHMTable th:nth-of-type(2), #speciesLearnsetTutorTable th:nth-of-type(1), #speciesLearnsetTutorTable th:nth-of-type(2), #speciesLearnsetEggMovesTable th:nth-of-type(1), #speciesLearnsetEggMovesTable th:nth-of-type(2) {
-		width: 50%;
-	}
-	
-	.movesRow {
-		display: flex;
-		height: fit-content;
-		position: relative;
-		align-items: center;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-	
-	.moveLevelWrapper {
-		position: absolute;
-		left: -4%;
-		top: 5%;
-	}
-	
-	.movesRow td {
-		width: 25%;
-	}
-	
-	td.moveNameWrapper, td.moveTypeWrapper {
-		width: 40%;
-	}
-	
-	tbody {
+	#speciesTable tbody {
 		scroll-margin-top: 67px;
 	}
 	
-	.sortLocked {
+	#speciesTable .sortLocked {
 		display: none;
 	}
 	
-	.table td {
+	#speciesTable .table td {
 		border: none;
 	}
 	
-	.sortControls {
+	#speciesTable .sortControls {
 		display: flex;
 		flex-wrap: wrap;
 	}
@@ -504,6 +544,7 @@ tbody {
 	.speciesRow {
 		position: relative;
 		height: fit-content;
+		height: -moz-max-content;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;

@@ -1,88 +1,91 @@
+function cmp(func, factor=1) {
+    return (a, b) => func(a) == func(b) ? 0 : func(a) < func(b) ? -1 * factor : 1 * factor;
+}
+
+function cmpAll(cmps) {
+	return (a, b) => {
+		let result = 0;
+		for (const func of cmps)
+			if ((result = func(a, b)))
+				return result;
+		return 0;
+	}
+}
 function setupTables() {
-	setupTable("speciesLearnsetPrevoExclusiveTable", moves, displayLevelUpMovesRow, Object.keys(moves).length, sortLevelUpMovesRow, [
-		["Lvl", ["level"]],
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
+	for (const name of [
+		//'speciesLearnsetPrevoExclusiveTable',
+		'speciesLearnsetLevelUpTable'
+	]) {
+		setupTable(name, displayLevelUpMovesRow, Object.keys(moves).length,
+			{
+				'Lvl': cmp(x => x[1]),
+				'Name': cmp(x => x[0].name),
+				'Type': cmp(x => types[x[0].type].name),
+				'Category': cmp(x => x[0].split),
+				'Power': cmp(x => x[0].power, -1),
+				'Acc': cmp(x => x[0].accuracy, -1),
+				'Description': null
+			},
+			[cmp(x => x[1]), cmp(x => x[0].name)]
+		);
+	}
 	
-	setupTable("speciesLearnsetLevelUpTable", moves, displayLevelUpMovesRow, Object.keys(moves).length, sortLevelUpMovesRow, [
-		["Lvl", ["level"]],
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
+	for (const name of [
+		'speciesLearnsetTMHMTable',
+		'speciesLearnsetTutorTable',
+		'speciesLearnsetEggMovesTable',
+		//'speciesLearnsetEventTable'
+	]) {
+		setupTable(name, displayMovesRow, Object.keys(moves).length,
+			{
+				'Name': cmp(x => x.name),
+				'Type': cmp(x => types[x.type].name),
+				'Category': cmp(x => x.split),
+				'Power': cmp(x => x.power, -1),
+				'Acc': cmp(x => x.accuracy, -1),
+				'Description': null
+			},
+			cmp(x => x.name)
+		);
+	}
+
+	setupTable('speciesTable', displaySpeciesRow, 50,
+		{
+			'#': cmp(x => x.dexID),
+			'Sprite': null,
+			'Name': cmp(x => x.name),
+			'Type': null,
+			'Abilities': cmp(x => getAbilityName(x.abilities[1])),
+			'HP': cmp(x => x.stats[0], -1),
+			'Atk': cmp(x => x.stats[1], -1),
+			'Def': cmp(x => x.stats[2], -1),
+			'SpA': cmp(x => x.stats[4], -1),
+			'SpD': cmp(x => x.stats[5], -1),
+			'Spe': cmp(x => x.stats[3], -1),
+			'BST': cmp(x => x.stats.reduce((total, y) => total += y, 0), -1)
+		},
+		[cmp(x => x.dexID), cmp(x => x.order)]
+	);
 	
-	setupTable("speciesLearnsetTMHMTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
-	
-	setupTable("speciesLearnsetTutorTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
-	
-	setupTable("speciesLearnsetEggMovesTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
-	
-	setupTable("speciesLearnsetEventTable", moves, displayMovesRow, Object.keys(moves).length, sortMovesRow, [
-		["Name", ["name"]],
-		["Type", ["type"]],
-		["Category", ["split"]],
-		["Power", ["power"]],
-		["Acc", ["accuracy"]]
-	]);
-	
-	setupTable("speciesTable", species, displaySpeciesRow, 50, sortSpeciesRow, [
-		["#", ["dexID"]],
-		["Sprite", []],
-		["Name", ["name"]],
-		["Type", []],
-		["Abilities", ["abilities", "primary"]],
-		["HP", ["stats", "HP"]],
-		["Atk", ["stats", "attack"]],
-		["Def", ["stats", "defense"]],
-		["SpA", ["stats", "spAttack"]],
-		["SpD", ["stats", "spDefense"]],
-		["Spe", ["stats", "speed"]],
-		["BST", ["stats", "total"]]
-	]);
-	
-	populateTable("speciesTable", Object.keys(species));
+	populateTable('speciesTable', Object.values(species));
 	
 	window.onscroll = function(ev) {
 		if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-			loadChunk(trackers["speciesTable"], false);
+			loadChunk(trackers['speciesTable'], false);
 		}
 	};
 }
 
-function setupTable(name, library, displayMethod, maxRows, sortMethod, sortOptions) {
+function setupTable(name, displayMethod, maxRows, columns, tieBreaker) {
 	let wrapper = document.getElementById(name);
 	if (!wrapper) {
 		console.log(`Table ${name} could not be created, wrapper missing.`);
 		return;
 	}
-	let table = document.createElement("table");
-	let thead = document.createElement("thead");
-	let tbody = document.createElement("tbody");
-	table.className = "align-middle table table-striped table-dark table-hover";
+	let table = document.createElement('table');
+	let thead = document.createElement('thead');
+	let tbody = document.createElement('tbody');
+	table.className = 'align-middle table table-striped table-dark table-hover';
 	table.append(thead);
 	table.append(tbody);
 	wrapper.append(table);
@@ -90,27 +93,26 @@ function setupTable(name, library, displayMethod, maxRows, sortMethod, sortOptio
 	trackers[name] = {};
 	let tracker = trackers[name];
 	tracker.body = tbody;
-	tracker.library = library;
 	tracker.displayMethod = displayMethod;
 	tracker.maxRows = maxRows;
 	
-	let sortControls = document.createElement("tr");
-	sortControls.className = "sortControls";
+	let sortControls = document.createElement('tr');
+	sortControls.className = 'sortControls';
 	thead.append(sortControls);
 	
-	for (const [sortLabel, sortProperties] of sortOptions) {
-		let sortOption = document.createElement("th");
+	for (const [label, compare] of Object.entries(columns)) {
+		let sortOption = document.createElement('th');
 		sortControls.append(sortOption);
-		sortOption.innerText = sortLabel;
-		sortOption.className = "sortLocked";
-		if (sortProperties.length === 0)
+		sortOption.innerText = label;
+		sortOption.className = 'sortLocked';
+		if (compare === null)
 			continue;
-		sortOption.className = "sortOption";
+		sortOption.className = 'sortOption';
 		sortOption.onclick = function () {
-			sortTracker(this, trackers[name], sortMethod, sortProperties);
+			sortTracker(this, trackers[name], cmpAll([compare].concat(tieBreaker)));
 		};
 	}
-	tracker.sortControls = sortControls.getElementsByClassName("sortOption");
+	tracker.sortControls = sortControls.getElementsByClassName('sortOption');
 }
 
 function populateTable(name, data) {
@@ -122,26 +124,26 @@ function populateTable(name, data) {
 	
 	tracker.data = data;
 	for (const control of tracker.sortControls)
-		control.className = "sortOption";
+		control.className = 'sortOption';
 	scrollIntoView = false;
 	tracker.sortControls[0].click();
 	scrollIntoView = true;
 }
 
-function sortTracker(selectedOption, tracker, sortMethod, sortProperties) {
+function sortTracker(selectedOption, tracker, compare) {
 	let prevClass = selectedOption.className;
 	
 	for (const option of tracker.sortControls)
-		option.className = "sortOption";
+		option.className = 'sortOption';
 	
-	selectedOption.className = "sortOption active sortAscending";
+	selectedOption.className = 'sortOption active sortAscending';
 	
-	if (prevClass === "sortOption") {
-		sortMethod(tracker, sortProperties);
+	if (prevClass === 'sortOption') {
+		tracker.data.sort(compare);
 	}
 	else {
-		if (prevClass === "sortOption active sortAscending") {
-			selectedOption.className = "sortOption active sortDescending";
+		if (prevClass === 'sortOption active sortAscending') {
+			selectedOption.className = 'sortOption active sortDescending';
 		}
 	
 		tracker.data.reverse();
