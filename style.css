@@ -234,10 +234,12 @@ li:hover {
 
 .typeMatchupMultiplier {
 	padding: 3px;
-    margin: 3px;
-    border-radius: 3px;
+    margin: 1px 3px 8px 3px;
+    border-radius: 15px;
     background-color: #333333;
 	text-shadow: 1px 1px black;
+	border: 2px #555 solid;
+    box-shadow: 1px 2px #00000047;  
 }
 
 .typeMatchupMultiplier.x0 {

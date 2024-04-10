@@ -65,7 +65,7 @@ function displaySpeciesPanel(mon) {
 	let tables = [
 		['speciesLearnsetPrevoExclusiveTable', mon.prevoMoves?.map(x => moves[x])],
 		['speciesLearnsetLevelUpTable', mon.levelupMoves?.map(x => [moves[x[0]], x[1]])],
-		['speciesLearnsetTMHMTable', mon.tmMoves?.map(x => moves[tmMoves[x]])],
+		['speciesLearnsetTMHMTable', mon.tmMoves?.map(x => moves[tmMoves[x]]).filter(x => x !== undefined)],
 		['speciesLearnsetTutorTable', mon.tutorMoves?.map(x => moves[tutorMoves[x]]).filter(x => x !== undefined)],
 		['speciesLearnsetEggMovesTable', mon.eggMoves?.map(x => moves[x])],
 		['speciesLearnsetEventTable', mon.eventMoves?.map(x => moves[x])],
@@ -96,7 +96,7 @@ function displaySpeciesPanel(mon) {
 		statWrapper,
 		buildWrapperChangelog('div', 'infoChangelog', mon),
 		buildWrapperFamilyTree('div', 'infoFamilyTree', mon),
-		//buildWrapperCoverageDefensive('div', 'infoCoverage', types[mon.type[0]], types[mon.type[1]]),
+		buildWrapperCoverageDefensive('div', 'infoCoverage', mon.type[0], mon.type[1]),
 		//buildWrapperCap('div', 'infoCap', mon.ID),
 		buildWrapperHeldItems('div', 'infoItems', mon.items),
 		//buildWrapperEggGroups('div', 'infoEggGroups', mon.eggGroup),
@@ -358,18 +358,29 @@ function familyTree(display, mon, prevo=null, evo=null) {
 	return wrapper;
 }
 
-function buildWrapperCoverageDefensive(tag, className, primary, secondary=null) {
+function buildWrapperCoverageDefensive(tag, className, primary, secondary=undefined) {
 	let wrapper = buildWrapper(tag, className + 'Wrapper');
 	
 	let label = buildWrapper('div', 'coverageLabelWrapper', 'Weakness');
 	let matchups = buildWrapper('div', 'coverageMatchupsWrapper');
 	
 	let coverage = {};
-	for (const key in primary.defensive) {
-		let matchup = primary.defensive[key];
-		if (secondary)
-			matchup *= secondary.defensive[key];
-		matchups.append(buildWrapperTypeMatchup(key, matchup));
+	for (const type of Object.values(types)) {
+
+		let matchup = 1;
+		for (const speciesType of [primary, secondary]) {
+
+			if (speciesType === undefined)
+				continue;
+			
+			switch (type.matchup[speciesType]) {
+				case 20: matchup *= 2;   break;
+				case  5: matchup *= 0.5; break;
+				case  1: matchup *= 0;   break;
+			}
+		}
+		
+		matchups.append(buildWrapperTypeMatchup(type, matchup));
 	}
 	
 	wrapper.append(label, matchups);
@@ -377,10 +388,10 @@ function buildWrapperCoverageDefensive(tag, className, primary, secondary=null) 
 	return wrapper;
 }
 
-function buildWrapperTypeMatchup(key, matchup) {
+function buildWrapperTypeMatchup(type, matchup) {
 	let wrapper = buildWrapper('div', 'typeMatchupWrapper');
 	
-	wrapper.append(buildWrapperTypes('div', 'typeMatchupLabel', types[key]));
+	wrapper.append(buildWrapperTypes('div', 'typeMatchupLabel', type));
 	wrapper.append(buildWrapper('div', 'typeMatchupMultiplier x' + (matchup * 100), matchup + 'x'));
 	
 	return wrapper;

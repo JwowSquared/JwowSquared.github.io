@@ -24,8 +24,15 @@ async function fetchData() {
 	areas = data.areas;
 	tmMoves = data.tmMoves;
 	tutorMoves = data.tutorMoves;
-	sprites = data.sprites;
 	trainers = data.trainers;
+	natures = data.natures;
+	eggGroups = data.eggGroups;
+	types = data.types;
+	splits = data.splits;
+	evolutions = data.evolutions;
+	scaledLevels = data.scaledLevels;
+	capIDs = data.capIDs;
+	sprites = data.sprites;
 	
 	loadingScreen.className = "hide";
 	document.querySelector("main").className = "";

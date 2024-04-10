@@ -1,15 +1,22 @@
 let repo = "JwowSquared/JwowSquared.github.io";
-let version = "rrdex release 1.1.2.6.8";
+let version = "rrdex release 1.1.2.6.9";
 
-let species = null;
-let moves = null;
-let abilities = null;
-let items = null;
-let areas = null;
-let tmMoves = null;
-let tutorMoves = null;
-let sprites = null;
-let trainers = null;
+species = null;
+moves = null;
+abilities = null;
+items = null;
+areas = null;
+tmMoves = null;
+tutorMoves = null;
+trainers = null;
+natures = null;
+eggGroups = null;
+types = null;
+splits = null;
+evolutions = null;
+scaledLevels = null;
+capIDs = null;
+sprites = null;
 
 let trackers = {};
 let filters = {};
