@@ -1,5 +1,5 @@
 let repo = "JwowSquared/JwowSquared.github.io";
-let version = "rrdex release 1.1.2.6.10";
+let version = "rrdex release 1.2.2";
 
 species = null;
 moves = null;
