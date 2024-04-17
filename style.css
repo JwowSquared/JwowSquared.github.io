@@ -106,6 +106,7 @@ li:hover {
 .infoStatWrapper {
 	display: flex;
 	align-items: center;
+	font-family: monospace;
 }
 
 .infoStatLabel {
@@ -232,14 +233,33 @@ li:hover {
     justify-content: center;
 }
 
+
+.typeMatchupWrapper {
+	display: flex;
+	margin: 1px 3px 8px 3px;
+	box-shadow: 1px 2px #00000047;
+    border-radius: 14px;
+}
+
+.typeMatchupWrapper .typeWrapper {
+	border-radius: 14px 0 0 14px;
+	border-right: none;
+	margin: 0;
+	box-shadow: none;
+}
+
 .typeMatchupMultiplier {
-	padding: 3px;
-    margin: 1px 3px 8px 3px;
-    border-radius: 15px;
+	height: 27px;
+	width: 27px;
+    border-radius: 0 14px 14px 0;
     background-color: #333333;
 	text-shadow: 1px 1px black;
-	border: 2px #555 solid;
-    box-shadow: 1px 2px #00000047;  
+	border: 2px white solid;
+	line-height: 22px;
+    font-weight: 550;
+	border-left-width: 1px;
+	padding-right: 2px;
+	margin-left: -3px;
 }
 
 .typeMatchupMultiplier.x0 {
@@ -247,19 +267,19 @@ li:hover {
 }
 
 .typeMatchupMultiplier.x25 {
-	background-color: #7c0000;
+	background-color: #650505;
 }
 
 .typeMatchupMultiplier.x50 {
-	background-color: #a40000;
+	background-color: #b72222;
 }
 
 .typeMatchupMultiplier.x200 {
-	background-color: #4e9a06;
+	background-color: #23cd5e;
 }
 
 .typeMatchupMultiplier.x400 {
-	background-color: #73d216;
+	background-color: #47e515;
 }
 
 .tableName {
@@ -417,15 +437,17 @@ td.speciesNameWrapper {
 }
 
 .typeWrapper {
-	width: 70.3px;
-	padding: 2px;
+	height: 27px;
+	width: 87.3px;
 	display: inline-block;
-	border-radius: 15px;
+	border-radius: 14px;
 	margin: 2px 3px;
 	font-weight: 550;
-	text-shadow: 1px 1px black;
+	text-shadow: 1px 1px #4a4a4a;
 	border: 2px white solid;
-    box-shadow: 1px 2px #00000047;    
+    box-shadow: 1px 2px #00000047;
+	font-family: monospace;
+    text-transform: uppercase;
 }
 
 .speciesAbilitiesWrapper, .infoAbilitiesWrapper, .infoChangelogAbilityWrapper {
@@ -438,8 +460,15 @@ td.speciesNameWrapper {
     text-shadow: 1px 1px black;
 }
 
+.speciesStatWrapper {
+	font-family: monospace;
+	text-align: right;
+}
+
 .speciesStatLabel {
 	font-style: italic;
+	color: #bdbdbd;
+	margin-bottom: -6px;
 }
 
 .moveSplit {

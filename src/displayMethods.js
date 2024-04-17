@@ -389,10 +389,15 @@ function buildWrapperCoverageDefensive(tag, className, primary, secondary=undefi
 }
 
 function buildWrapperTypeMatchup(type, matchup) {
-	let wrapper = buildWrapper('div', 'typeMatchupWrapper');
+	let wrapper = buildWrapperTypes('div', 'typeMatchup', type);
 	
-	wrapper.append(buildWrapperTypes('div', 'typeMatchupLabel', type));
-	wrapper.append(buildWrapper('div', 'typeMatchupMultiplier x' + (matchup * 100), matchup + 'x'));
+	let label = matchup.toString();
+	if (matchup === 0.5)
+		label = '½';
+	else if (matchup === 0.25)
+		label = '¼';
+	
+	wrapper.append(buildWrapper('div', 'typeMatchupMultiplier x' + (matchup * 100), label));
 	
 	return wrapper;
 }
