@@ -443,7 +443,7 @@ td.speciesNameWrapper {
 	border-radius: 14px;
 	margin: 2px 3px;
 	font-weight: 550;
-	text-shadow: 1px 1px #4a4a4a;
+	text-shadow: 1px 1px #000;
 	border: 2px white solid;
     box-shadow: 1px 2px #00000047;
 	font-family: monospace;

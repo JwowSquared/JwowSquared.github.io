@@ -466,8 +466,12 @@ function buildWrapperEggGroups(tag, className, e) {
 }
 
 function buildBackgroundColor(currentRow, mon) {
+	//currentRow.style.backgroundColor = types[mon.type[0]].color;
+	//	currentRow.style.backgroundImage = 'linear-gradient(to right, rgba' + currentRow.style.backgroundColor.substr(3).replace(')', ', 0.4)') + ', rgb(63, 40, 40, 0.4))';
+	//	currentRow.style.backgroundColor = '';
+		
 	currentRow.style.backgroundColor = types[mon.type[0]].color;
-		currentRow.style.backgroundImage = 'linear-gradient(to right, rgba' + currentRow.style.backgroundColor.substr(3).replace(')', ', 0.4)') + ', rgb(63, 40, 40, 0.4))';
+		currentRow.style.backgroundImage = 'linear-gradient(to right, rgb(63, 40, 40, 0.4), rgba' + currentRow.style.backgroundColor.substr(3).replace(')', ', 0.4)') + ')';
 		currentRow.style.backgroundColor = '';
 	return;
 	
